@@ -1,12 +1,12 @@
-method: pi5v2_naca_grpo
+method: naca_grpo
 model: Qwen3-VL-8B-Instruct
 group_size: 4
 naca:
-  policy: geneval2_naca@0.1
+  policy: naca
   multiplier_cap: 8.0
   denominator_tolerance: 1.0e-06
   positive_image_credit: normalized_action
-  negative_credit: trajectory_broadcast
+  negative_credit: broadcast
 optimization:
   algorithm: grpo
   clip_ratio_low: 0.2

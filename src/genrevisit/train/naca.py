@@ -1,7 +1,6 @@
-"""Pi5v2 NACA token allocation, extracted from the v2 training implementation.
+"""NACA token allocation for image actions.
 
-Input q values are computed upstream from verifier facts; this training-only
-package consumes those values and never loads episode events.
+The caller supplies quality values for each image action.
 """
 from __future__ import annotations
 
@@ -37,7 +36,7 @@ def allocate_image_multipliers(
     too few tokens have positive evidence; in that case the effective cap is
     raised explicitly to the minimum feasible value rather than dropping
     credit silently.  If no action has evidence, the documented uniform-image
-    fallback preserves the trajectory image-token mass.
+    fallback preserves the image-token mass.
     """
 
     if len(token_counts) != len(q_values):
@@ -133,7 +132,7 @@ def normalized_image_quality(
     *, result_utility: float, maximum_utility: float,
     reference_utility: float | None = None,
 ) -> float:
-    """Pi5v2 q: first generation has no reference; later actions do."""
+    """Quality value for an image action."""
     values = (result_utility, maximum_utility)
     if reference_utility is not None:
         values += (reference_utility,)
@@ -157,8 +156,8 @@ def assign_action_advantages(
 ) -> tuple[float, ...]:
     """Return one advantage per action; zero-count context has zero credit.
 
-    Positive trajectories allocate image-token mass using NACA. Negative
-    trajectories broadcast the original advantage, as in pi5v2.
+    Positive advantages allocate image-token mass using NACA. Negative
+    advantages are broadcast to all active actions.
     """
     if not (len(action_kinds) == len(token_counts) == len(image_q_values)):
         raise ValueError("action fields must align")

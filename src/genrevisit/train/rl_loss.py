@@ -1,4 +1,4 @@
-"""Pi5v2 action-token GRPO loss for already sampled, fixed-policy batches."""
+"""Action-token GRPO loss for already sampled, fixed-policy batches."""
 from __future__ import annotations
 
 import torch

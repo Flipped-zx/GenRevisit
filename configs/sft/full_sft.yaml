@@ -9,8 +9,8 @@ freeze_multi_modal_projector: true
 freeze_language_model: false
 deepspeed: configs/sft/ds_z3_config.json
 dataset_dir: REPLACE_DATASET_DIR
-dataset: gen_retry_sft_train
-eval_dataset: gen_retry_sft_validation
+dataset: sft_train
+eval_dataset: sft_validation
 template: qwen3_vl_nothink
 enable_thinking: false
 train_on_prompt: false
@@ -20,7 +20,7 @@ cutoff_len: 32768
 preprocessing_num_workers: 16
 dataloader_num_workers: 4
 output_dir: REPLACE_OUTPUT_DIR
-run_name: genrevisit-joint-mixed852-full-s42
+run_name: sft-full
 logging_steps: 5
 save_steps: 100
 save_total_limit: 3

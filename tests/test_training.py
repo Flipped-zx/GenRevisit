@@ -38,7 +38,7 @@ def test_naca_cap_and_fallback():
 
 
 def test_torch_loss_matches_reference_and_updates_parameter():
-    torch = pytest.importorskip("torch")
+    torch = pytest.importorskip("torch", exc_type=ImportError)
     from genrevisit.train.rl_loss import grpo_loss
     from genrevisit.train.rl_step import optimizer_step
 

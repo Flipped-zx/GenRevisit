@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "genrevisit-train"
 version = "0.1.0"
-description = "Training-only SFT and Pi5v2 NACA GRPO code"
+description = "SFT and NACA training code"
 requires-python = ">=3.10"
 dependencies = ["PyYAML>=6"]
 

@@ -1,4 +1,4 @@
-"""Model-facing Pi5v2 optimizer step for prepared on-policy batches."""
+"""Model-facing optimizer step for prepared on-policy batches."""
 from __future__ import annotations
 
 from collections.abc import Callable
