@@ -1,0 +1,30 @@
+method: pi5v2_naca_grpo
+model: Qwen3-VL-8B-Instruct
+group_size: 4
+naca:
+  policy: geneval2_naca@0.1
+  multiplier_cap: 8.0
+  denominator_tolerance: 1.0e-06
+  positive_image_credit: normalized_action
+  negative_credit: trajectory_broadcast
+optimization:
+  algorithm: grpo
+  clip_ratio_low: 0.2
+  clip_ratio_high: 0.28
+  reference_kl_coefficient: 0.02
+  sequence_loss_reduction: seq-mean-token-sum
+  train_action_tokens_only: true
+optimizer:
+  type: AdamW
+  learning_rate: 1.0e-06
+  weight_decay: 0.0
+  max_grad_norm: 1.0
+  warmup_ratio: 0.03
+  ppo_epochs: 1
+  train_epochs: 1
+distributed:
+  strategy: fsdp
+  world_size: 4
+  dtype: bfloat16
+  parameter_offload: true
+  optimizer_offload: true
