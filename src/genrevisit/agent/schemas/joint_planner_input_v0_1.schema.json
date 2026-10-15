@@ -1,0 +1,191 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local/gen-retry/joint-planner-input-v0.1.schema.json",
+  "title": "Joint GM prefix-only planner input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "policy_id",
+    "task_context",
+    "control",
+    "candidates",
+    "active_skills",
+    "available_skill_catalog",
+    "skill_query_control"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "joint_planner_input@1"
+    },
+    "policy_id": {
+      "const": "joint_gm_sft@1"
+    },
+    "task_context": {
+      "$ref": "https://local/gen-retry/planner-context-v0.7.schema.json#/$defs/taskContext"
+    },
+    "control": {
+      "$ref": "https://local/gen-retry/gm-continuation-control-v0.2.schema.json"
+    },
+    "candidates": {
+      "type": "array",
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "attempt_id",
+          "image_artifact_id",
+          "parent_attempt_id",
+          "gm",
+          "passed_constraint_ids",
+          "constraint_results",
+          "executed_action"
+        ],
+        "properties": {
+          "attempt_id": {
+            "type": "string",
+            "pattern": "^a_[0-9]{3,}$"
+          },
+          "image_artifact_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "parent_attempt_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "gm": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "passed_constraint_ids": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "constraint_results": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": [
+                "constraint_id",
+                "status"
+              ],
+              "properties": {
+                "constraint_id": {
+                  "type": "string"
+                },
+                "status": {
+                  "enum": [
+                    "pass",
+                    "fail",
+                    "uncertain"
+                  ]
+                }
+              }
+            }
+          },
+          "executed_action": {
+            "$ref": "https://local/gen-retry/action-protocol-v0.5.schema.json"
+          }
+        }
+      }
+    },
+    "active_skills": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "skill_id",
+          "target_constraint_ids",
+          "guidance",
+          "guidance_level"
+        ],
+        "properties": {
+          "skill_id": {
+            "type": "string"
+          },
+          "target_constraint_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "guidance": {
+            "type": "string"
+          },
+          "guidance_level": {
+            "enum": [
+              "full",
+              "summary"
+            ]
+          }
+        }
+      }
+    },
+    "available_skill_catalog": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "skill_id"
+        ]
+      }
+    },
+    "last_action_error": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "error_code",
+        "message"
+      ],
+      "properties": {
+        "error_code": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "skill_query_control": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_queries",
+        "completed_queries",
+        "remaining_queries",
+        "pending_query_ids"
+      ],
+      "properties": {
+        "max_queries": {
+          "const": 2
+        },
+        "completed_queries": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "remaining_queries": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2
+        },
+        "pending_query_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

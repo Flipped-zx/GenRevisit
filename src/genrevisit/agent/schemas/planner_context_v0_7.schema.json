@@ -1,0 +1,573 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local/gen-retry/planner-context-v0.7.schema.json",
+  "title": "Gen-Retry PlannerContext v0.7",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "planner_context_schema_version",
+    "task_context",
+    "latest_attempt",
+    "skill_context",
+    "episode_memory",
+    "runtime_state"
+  ],
+  "properties": {
+    "planner_context_schema_version": {
+      "const": "0.7"
+    },
+    "task_context": {
+      "$ref": "#/$defs/taskContext"
+    },
+    "latest_attempt": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/$defs/attemptState"
+        }
+      ]
+    },
+    "skill_context": {
+      "$ref": "#/$defs/skillContext"
+    },
+    "episode_memory": {
+      "$ref": "#/$defs/episodeMemory"
+    },
+    "runtime_state": {
+      "$ref": "#/$defs/runtimeState"
+    }
+  },
+  "$defs": {
+    "constraintIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^c_[0-9]{3,}$"
+      },
+      "uniqueItems": true
+    },
+    "taskContext": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["original_prompt", "max_image_attempts", "atom_constraints"],
+      "properties": {
+        "original_prompt": {
+          "type": "string"
+        },
+        "max_image_attempts": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "atom_constraints": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "constraint_id",
+              "constraint_type",
+              "requirement",
+              "evaluator_question"
+            ],
+            "properties": {
+              "constraint_id": {
+                "type": "string",
+                "pattern": "^c_[0-9]{3,}$"
+              },
+              "constraint_type": {
+                "type": "string"
+              },
+              "requirement": {
+                "type": "string"
+              },
+              "evaluator_question": {
+                "type": ["string", "null"]
+              }
+            }
+          }
+        }
+      }
+    },
+    "attemptState": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["attempt_id", "primary_score", "constraint_results"],
+      "properties": {
+        "attempt_id": {
+          "type": "string",
+          "pattern": "^a_[0-9]{3,}$"
+        },
+        "primary_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "constraint_results": {
+          "$ref": "#/$defs/constraintResults"
+        }
+      }
+    },
+    "constraintResults": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "passed_constraint_ids",
+        "failed_constraint_ids",
+        "uncertain_constraint_ids",
+        "observations"
+      ],
+      "properties": {
+        "passed_constraint_ids": {
+          "$ref": "#/$defs/constraintIds"
+        },
+        "failed_constraint_ids": {
+          "$ref": "#/$defs/constraintIds"
+        },
+        "uncertain_constraint_ids": {
+          "$ref": "#/$defs/constraintIds"
+        },
+        "observations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["constraint_id", "status", "observed_value"],
+            "properties": {
+              "constraint_id": {
+                "type": "string",
+                "pattern": "^c_[0-9]{3,}$"
+              },
+              "status": {
+                "enum": ["pass", "fail", "uncertain"]
+              },
+              "observed_value": {
+                "type": ["string", "number", "boolean", "null"]
+              }
+            }
+          }
+        }
+      }
+    },
+    "skillContext": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["active_skills"],
+      "properties": {
+        "active_skills": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "skill_id",
+              "target_constraint_ids",
+              "guidance",
+              "guidance_level"
+            ],
+            "properties": {
+              "skill_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "target_constraint_ids": {
+                "$ref": "#/$defs/constraintIds"
+              },
+              "guidance": {
+                "type": "string"
+              },
+              "guidance_level": {
+                "enum": ["full", "summary"]
+              }
+            }
+          }
+        }
+      }
+    },
+    "episodeMemory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "last_completed_image_round",
+        "prior_image_rounds",
+        "best_attempt"
+      ],
+      "properties": {
+        "last_completed_image_round": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/lastCompletedImageRound"
+            }
+          ]
+        },
+        "prior_image_rounds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/priorImageRound"
+          }
+        },
+        "best_attempt": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/bestAttemptRef"
+            },
+            {
+              "$ref": "#/$defs/bestAttemptState"
+            }
+          ]
+        }
+      }
+    },
+    "lastCompletedImageRound": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "skill_queries",
+        "image_action",
+        "result_attempt_id",
+        "observed_outcome"
+      ],
+      "properties": {
+        "skill_queries": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/skillQuery"
+          }
+        },
+        "image_action": {
+          "$ref": "#/$defs/roundImageAction"
+        },
+        "result_attempt_id": {
+          "type": "string",
+          "pattern": "^a_[0-9]{3,}$"
+        },
+        "observed_outcome": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/initialOutcome"
+            },
+            {
+              "$ref": "#/$defs/transitionOutcome"
+            }
+          ]
+        }
+      }
+    },
+    "priorImageRound": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "action",
+        "source_attempt_id",
+        "result_attempt_id",
+        "target_constraint_ids",
+        "preserve_constraint_ids",
+        "instruction",
+        "outcome_summary"
+      ],
+      "properties": {
+        "action": {
+          "enum": ["generate_image", "edit_image"]
+        },
+        "source_attempt_id": {
+          "type": ["string", "null"],
+          "pattern": "^a_[0-9]{3,}$"
+        },
+        "result_attempt_id": {
+          "type": "string",
+          "pattern": "^a_[0-9]{3,}$"
+        },
+        "target_constraint_ids": {
+          "$ref": "#/$defs/constraintIds"
+        },
+        "preserve_constraint_ids": {
+          "$ref": "#/$defs/constraintIds"
+        },
+        "instruction": {
+          "type": "string",
+          "minLength": 1
+        },
+        "outcome_summary": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "baseline_attempt_id",
+            "primary_score_delta",
+            "result_failed_constraint_ids",
+            "result_uncertain_constraint_ids",
+            "fixed_constraint_ids",
+            "regressed_constraint_ids",
+            "became_best"
+          ],
+          "properties": {
+            "baseline_attempt_id": {
+              "type": ["string", "null"],
+              "pattern": "^a_[0-9]{3,}$"
+            },
+            "primary_score_delta": {
+              "type": ["number", "null"],
+              "minimum": -1,
+              "maximum": 1
+            },
+            "result_failed_constraint_ids": {
+              "$ref": "#/$defs/constraintIds"
+            },
+            "result_uncertain_constraint_ids": {
+              "$ref": "#/$defs/constraintIds"
+            },
+            "fixed_constraint_ids": {
+              "$ref": "#/$defs/constraintIds"
+            },
+            "regressed_constraint_ids": {
+              "$ref": "#/$defs/constraintIds"
+            },
+            "became_best": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
+    "skillQuery": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["skill_id", "target_constraint_ids"],
+      "properties": {
+        "skill_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target_constraint_ids": {
+          "$ref": "#/$defs/constraintIds"
+        }
+      }
+    },
+    "roundImageAction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "action",
+        "source_attempt_id",
+        "target_constraint_ids",
+        "preserve_constraint_ids",
+        "instruction"
+      ],
+      "properties": {
+        "action": {
+          "enum": ["generate_image", "edit_image"]
+        },
+        "source_attempt_id": {
+          "type": ["string", "null"],
+          "pattern": "^a_[0-9]{3,}$"
+        },
+        "target_constraint_ids": {
+          "$ref": "#/$defs/constraintIds"
+        },
+        "preserve_constraint_ids": {
+          "$ref": "#/$defs/constraintIds"
+        },
+        "instruction": {
+          "type": "string"
+        }
+      },
+      "oneOf": [
+        {
+          "properties": {
+            "action": {
+              "const": "generate_image"
+            },
+            "source_attempt_id": {
+              "type": "null"
+            }
+          }
+        },
+        {
+          "properties": {
+            "action": {
+              "const": "edit_image"
+            },
+            "source_attempt_id": {
+              "type": "string",
+              "pattern": "^a_[0-9]{3,}$"
+            }
+          }
+        }
+      ]
+    },
+    "initialOutcome": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "baseline_attempt_id",
+        "primary_score_delta",
+        "initial_failed_constraint_ids",
+        "initial_uncertain_constraint_ids",
+        "became_best"
+      ],
+      "properties": {
+        "baseline_attempt_id": {
+          "type": "null"
+        },
+        "primary_score_delta": {
+          "type": "null"
+        },
+        "initial_failed_constraint_ids": {
+          "$ref": "#/$defs/constraintIds"
+        },
+        "initial_uncertain_constraint_ids": {
+          "$ref": "#/$defs/constraintIds"
+        },
+        "became_best": {
+          "type": "boolean"
+        }
+      }
+    },
+    "transitionOutcome": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "baseline_attempt_id",
+        "primary_score_delta",
+        "fixed_constraint_ids",
+        "regressed_constraint_ids",
+        "persistent_failed_constraint_ids",
+        "preserved_constraint_ids",
+        "new_uncertain_constraint_ids",
+        "became_best"
+      ],
+      "properties": {
+        "baseline_attempt_id": {
+          "type": "string",
+          "pattern": "^a_[0-9]{3,}$"
+        },
+        "primary_score_delta": {
+          "type": "number",
+          "minimum": -1,
+          "maximum": 1
+        },
+        "fixed_constraint_ids": {
+          "$ref": "#/$defs/constraintIds"
+        },
+        "regressed_constraint_ids": {
+          "$ref": "#/$defs/constraintIds"
+        },
+        "persistent_failed_constraint_ids": {
+          "$ref": "#/$defs/constraintIds"
+        },
+        "preserved_constraint_ids": {
+          "$ref": "#/$defs/constraintIds"
+        },
+        "new_uncertain_constraint_ids": {
+          "$ref": "#/$defs/constraintIds"
+        },
+        "became_best": {
+          "type": "boolean"
+        }
+      }
+    },
+    "bestAttemptRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["attempt_id", "constraint_results_ref"],
+      "properties": {
+        "attempt_id": {
+          "type": "string",
+          "pattern": "^a_[0-9]{3,}$"
+        },
+        "constraint_results_ref": {
+          "const": "latest_attempt"
+        }
+      }
+    },
+    "bestAttemptState": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["attempt_id", "primary_score", "constraint_results"],
+      "properties": {
+        "attempt_id": {
+          "type": "string",
+          "pattern": "^a_[0-9]{3,}$"
+        },
+        "primary_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "constraint_results": {
+          "$ref": "#/$defs/constraintResults"
+        }
+      }
+    },
+    "runtimeState": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "remaining_image_budget",
+        "available_actions",
+        "score_policy"
+      ],
+      "properties": {
+        "remaining_image_budget": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "available_actions": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "query_skill",
+              "generate_image",
+              "edit_image",
+              "submit_attempt"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "score_policy": {
+          "$ref": "#/$defs/scorePolicy"
+        }
+      }
+    },
+    "scorePolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "policy_id",
+        "policy_version",
+        "primary_metric",
+        "best_selection_rule"
+      ],
+      "properties": {
+        "policy_id": {
+          "const": "geneval2_pass_count_then_gm"
+        },
+        "policy_version": {
+          "const": "1"
+        },
+        "primary_metric": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["metric_id", "metric_version"],
+          "properties": {
+            "metric_id": {
+              "const": "geneval2_soft_tifa_gm"
+            },
+            "metric_version": {
+              "const": "flow_dppo_v1"
+            }
+          }
+        },
+        "best_selection_rule": {
+          "const": "higher_pass_count_then_higher_primary_score_then_earlier"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,166 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local/gen-retry/action-protocol-v0.5.schema.json",
+  "title": "Gen-Retry Planner Action Protocol v0.5",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "action", "arguments"],
+  "properties": {
+    "schema_version": {
+      "const": "0.5"
+    },
+    "action": {
+      "enum": ["query_skill", "generate_image", "edit_image", "submit_attempt"]
+    },
+    "arguments": {
+      "type": "object"
+    }
+  },
+  "oneOf": [
+    {
+      "properties": {
+        "action": {
+          "const": "query_skill"
+        },
+        "arguments": {
+          "$ref": "#/$defs/querySkillArguments"
+        }
+      }
+    },
+    {
+      "properties": {
+        "action": {
+          "const": "generate_image"
+        },
+        "arguments": {
+          "$ref": "#/$defs/generateImageArguments"
+        }
+      }
+    },
+    {
+      "properties": {
+        "action": {
+          "const": "edit_image"
+        },
+        "arguments": {
+          "$ref": "#/$defs/editImageArguments"
+        }
+      }
+    },
+    {
+      "properties": {
+        "action": {
+          "const": "submit_attempt"
+        },
+        "arguments": {
+          "$ref": "#/$defs/submitAttemptArguments"
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "constraintIds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^c_[0-9]{3,}$"
+      },
+      "uniqueItems": true
+    },
+    "nonEmptyConstraintIds": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/constraintIds"
+        },
+        {
+          "minItems": 1
+        }
+      ]
+    },
+    "querySkillArguments": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["skill_ids", "target_constraint_ids"],
+      "properties": {
+        "skill_ids": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 3,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "target_constraint_ids": {
+          "$ref": "#/$defs/nonEmptyConstraintIds"
+        }
+      }
+    },
+    "generateImageArguments": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "target_constraint_ids",
+        "preserve_constraint_ids",
+        "instruction"
+      ],
+      "properties": {
+        "target_constraint_ids": {
+          "$ref": "#/$defs/nonEmptyConstraintIds"
+        },
+        "preserve_constraint_ids": {
+          "$ref": "#/$defs/constraintIds"
+        },
+        "instruction": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "editImageArguments": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_attempt_id",
+        "target_constraint_ids",
+        "preserve_constraint_ids",
+        "instruction"
+      ],
+      "properties": {
+        "source_attempt_id": {
+          "type": "string",
+          "pattern": "^a_[0-9]{3,}$"
+        },
+        "target_constraint_ids": {
+          "$ref": "#/$defs/nonEmptyConstraintIds"
+        },
+        "preserve_constraint_ids": {
+          "$ref": "#/$defs/constraintIds"
+        },
+        "instruction": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "submitAttemptArguments": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["selected_attempt_id", "reason_code"],
+      "properties": {
+        "selected_attempt_id": {
+          "type": "string",
+          "pattern": "^a_[0-9]{3,}$"
+        },
+        "reason_code": {
+          "enum": [
+            "all_constraints_passed",
+            "best_available_under_budget",
+            "no_productive_action_remaining"
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local/gen-retry/gm-continuation-control-v0.2.schema.json",
+  "title": "Isolated five-image fresh GM control including empty history",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "policy_id", "arm", "gm_best_score", "tie_break", "remaining_image_budget", "gm_best_attempt_id", "canonical_pass_first_best_attempt_id", "latest_attempt_id", "editable_source_ids", "visible_candidate_ids", "submittable_candidate_ids"],
+  "properties": {
+    "schema_version": {"const": "0.2"},
+    "policy_id": {"const": "gm_fresh_control@1"},
+    "arm": {"enum": ["joint", "best_only", "latest_only"]},
+    "gm_best_score": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+    "tie_break": {"const": "higher_pass_count_then_earlier"},
+    "remaining_image_budget": {"type": "integer", "minimum": 0, "maximum": 5},
+    "gm_best_attempt_id": {"$ref": "#/$defs/nullableAttemptId"},
+    "canonical_pass_first_best_attempt_id": {"$ref": "#/$defs/nullableAttemptId"},
+    "latest_attempt_id": {"$ref": "#/$defs/nullableAttemptId"},
+    "editable_source_ids": {"$ref": "#/$defs/attemptIds"},
+    "visible_candidate_ids": {"$ref": "#/$defs/attemptIds"},
+    "submittable_candidate_ids": {"allOf": [{"$ref": "#/$defs/attemptIds"}], "maxItems": 1}
+  },
+  "$defs": {
+    "nullableAttemptId": {"type": ["string", "null"], "pattern": "^a_[0-9]{3,}$"},
+    "attemptIds": {"type": "array", "minItems": 0, "maxItems": 5, "uniqueItems": true, "items": {"type": "string", "pattern": "^a_[0-9]{3,}$"}}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"visible_candidate_ids": {"maxItems": 0}}},
+      "then": {"properties": {
+        "gm_best_score": {"type": "null"}, "gm_best_attempt_id": {"type": "null"},
+        "canonical_pass_first_best_attempt_id": {"type": "null"}, "latest_attempt_id": {"type": "null"},
+        "editable_source_ids": {"maxItems": 0}, "submittable_candidate_ids": {"maxItems": 0},
+        "remaining_image_budget": {"const": 5}
+      }},
+      "else": {"properties": {
+        "gm_best_score": {"type": "number"}, "gm_best_attempt_id": {"type": "string"},
+        "canonical_pass_first_best_attempt_id": {"type": "string"}, "latest_attempt_id": {"type": "string"},
+        "editable_source_ids": {"minItems": 1}, "submittable_candidate_ids": {"minItems": 1},
+        "remaining_image_budget": {"maximum": 4}
+      }}
+    },
+    {
+      "if": {"properties": {"arm": {"enum": ["best_only", "latest_only"]}}},
+      "then": {"properties": {"editable_source_ids": {"maxItems": 1}}}
+    }
+  ]
+}

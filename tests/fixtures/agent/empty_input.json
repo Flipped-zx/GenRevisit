@@ -1,0 +1,88 @@
+{
+  "schema_version": "joint_planner_input@1",
+  "policy_id": "joint_gm_sft@1",
+  "task_context": {
+    "original_prompt": "a checkered glass motorcycle",
+    "max_image_attempts": 5,
+    "atom_constraints": [
+      {
+        "constraint_id": "c_001",
+        "constraint_type": "count",
+        "requirement": "Expected answer: one",
+        "evaluator_question": "How many motorcycles are in the image?"
+      },
+      {
+        "constraint_id": "c_002",
+        "constraint_type": "attribute",
+        "requirement": "Expected answer: Yes",
+        "evaluator_question": "Is the motorcycle checkered?"
+      },
+      {
+        "constraint_id": "c_003",
+        "constraint_type": "attribute",
+        "requirement": "Expected answer: Yes",
+        "evaluator_question": "Is the motorcycle glass?"
+      },
+      {
+        "constraint_id": "c_004",
+        "constraint_type": "object",
+        "requirement": "Expected answer: Yes",
+        "evaluator_question": "Are there any motorcycles in the image?"
+      }
+    ]
+  },
+  "control": {
+    "schema_version": "0.2",
+    "policy_id": "gm_fresh_control@1",
+    "arm": "joint",
+    "gm_best_attempt_id": null,
+    "gm_best_score": null,
+    "canonical_pass_first_best_attempt_id": null,
+    "latest_attempt_id": null,
+    "editable_source_ids": [],
+    "visible_candidate_ids": [],
+    "submittable_candidate_ids": [],
+    "tie_break": "higher_pass_count_then_earlier",
+    "remaining_image_budget": 5
+  },
+  "candidates": [],
+  "active_skills": [],
+  "available_skill_catalog": [
+    {
+      "skill_id": "counting_and_instance_layout",
+      "version": "2.0.0",
+      "description": "Exact cardinality for generation and local count repair."
+    },
+    {
+      "skill_id": "spatial_relation_layout",
+      "version": "2.0.0",
+      "description": "Static frame, depth, support, containment, and occlusion relations."
+    },
+    {
+      "skill_id": "attribute_entity_binding",
+      "version": "1.0.0",
+      "description": "Bind color, material, texture, and identity attributes to the correct entity."
+    },
+    {
+      "skill_id": "local_edit_preservation",
+      "version": "2.0.0",
+      "description": "Four-part local edit instructions that preserve passed evidence."
+    },
+    {
+      "skill_id": "action_pose_relation",
+      "version": "2.1.0",
+      "description": "Targeted verb topology and verb-pass preservation after an evaluated verb failure or uncertainty; not an initial-generation prefix."
+    },
+    {
+      "skill_id": "object_identity_presence",
+      "version": "1.0.0",
+      "description": "Recognizable object identity, presence, full visibility, and no substitutions."
+    }
+  ],
+  "skill_query_control": {
+    "max_queries": 2,
+    "completed_queries": 0,
+    "remaining_queries": 2,
+    "pending_query_ids": []
+  }
+}

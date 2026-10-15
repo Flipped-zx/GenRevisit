@@ -9,6 +9,7 @@
 </p>
 
 <p align="center">
+  <a href="#agent">Agent</a> &nbsp;·&nbsp;
   <a href="#structure">Structure</a> &nbsp;·&nbsp;
   <a href="#sft">SFT</a> &nbsp;·&nbsp;
   <a href="#rl--naca">RL / NACA</a> &nbsp;·&nbsp;
@@ -17,13 +18,18 @@
 
 ---
 
+## Agent
+
+Input fields, action schemas, validation and message rendering: [Agent](docs/agent.md).
+
 ## Structure
 
 ```text
 configs/sft/       SFT and DeepSpeed configuration
 configs/rl/        NACA and GRPO configuration
 scripts/           SFT training launcher
-src/genrevisit/    Credit allocation, loss, and optimizer step
+src/genrevisit/agent/  Agent field contracts and message rendering
+src/genrevisit/train/  Credit allocation, loss, and optimizer step
 tests/             Small training checks
 ```
 
