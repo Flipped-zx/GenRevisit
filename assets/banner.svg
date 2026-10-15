@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="330" viewBox="0 0 1200 330" role="img" aria-labelledby="title desc">
+  <title id="title">GenRevisit</title>
+  <desc id="desc">GenRevisit project banner with a circular arrow and layered image frames.</desc>
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#f1f7ff"/><stop offset="1" stop-color="#f5f0ff"/></linearGradient>
+    <linearGradient id="accent" x2="1" y2="1"><stop stop-color="#0891b2"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+    <linearGradient id="image" x2="0" y2="1"><stop stop-color="#a5e5ef"/><stop offset="1" stop-color="#c4b5fd"/></linearGradient>
+  </defs>
+  <rect width="1200" height="330" rx="28" fill="url(#bg)"/>
+  <circle cx="1080" cy="35" r="175" fill="#ddd6fe" opacity=".3"/>
+  <circle cx="80" cy="325" r="170" fill="#cffafe" opacity=".4"/>
+  <g transform="translate(115 65)">
+    <rect x="52" y="29" width="126" height="126" rx="20" fill="#ddd6fe" transform="rotate(12 115 92)"/>
+    <rect x="36" y="42" width="126" height="126" rx="20" fill="white" stroke="#c4b5fd" stroke-width="2"/>
+    <rect x="48" y="54" width="102" height="102" rx="12" fill="url(#image)"/>
+    <circle cx="119" cy="81" r="11" fill="#fff" opacity=".9"/>
+    <path d="M48 139 79 104 104 129 123 112 150 141V144Q150 156 138 156H60Q48 156 48 144Z" fill="#6473c9" opacity=".8"/>
+    <path d="M178 144A88 88 0 1 1 164 24" fill="none" stroke="url(#accent)" stroke-width="11" stroke-linecap="round"/>
+    <path d="m143 22 25 5-3-26" fill="none" stroke="#6550cc" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <text x="370" y="182" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="84" font-weight="750" letter-spacing="-3" fill="url(#accent)">GenRevisit</text>
+  <text x="375" y="226" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="20" letter-spacing="4" fill="#64748b">SFT  /  RL  /  NACA</text>
+</svg>
