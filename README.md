@@ -5,17 +5,10 @@
 <h1 align="center">GenRevisit</h1>
 
 <p align="center">
-  Training code and model weights for SFT and RL with NACA.
+  Training code for SFT and RL with NACA.
 </p>
 
 <p align="center">
-  <a href="https://huggingface.co/GenRevisit/GenRevisit-SFT"><img src="https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-GenRevisit--SFT-0891b2?style=for-the-badge" alt="Hugging Face: GenRevisit-SFT" /></a>
-  &nbsp;
-  <a href="https://huggingface.co/GenRevisit/GenRevisit-RL"><img src="https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-GenRevisit--RL-7c3aed?style=for-the-badge" alt="Hugging Face: GenRevisit-RL" /></a>
-</p>
-
-<p align="center">
-  <a href="#model">Model</a> &nbsp;·&nbsp;
   <a href="#structure">Structure</a> &nbsp;·&nbsp;
   <a href="#sft">SFT</a> &nbsp;·&nbsp;
   <a href="#rl--naca">RL / NACA</a> &nbsp;·&nbsp;
@@ -23,13 +16,6 @@
 </p>
 
 ---
-
-## Model
-
-| Model | Weights |
-| :--- | :--- |
-| **GenRevisit-SFT** | [🤗 Hugging Face](https://huggingface.co/GenRevisit/GenRevisit-SFT) |
-| **GenRevisit-RL** | [🤗 Hugging Face](https://huggingface.co/GenRevisit/GenRevisit-RL) |
 
 ## Structure
 
