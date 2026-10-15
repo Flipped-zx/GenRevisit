@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="260" height="260" viewBox="0 0 260 260" role="img" aria-labelledby="title desc">
+<title id="title">GenRevisit</title>
+<desc id="desc">Layered image frames surrounded by a revisit arrow.</desc>
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#f1f7ff"/><stop offset="1" stop-color="#f5f0ff"/></linearGradient>
+    <linearGradient id="accent" x2="1" y2="1"><stop stop-color="#0891b2"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+    <linearGradient id="image" x2="0" y2="1"><stop stop-color="#a5e5ef"/><stop offset="1" stop-color="#c4b5fd"/></linearGradient>
+  </defs>
+  <g transform="translate(25 35)">
+    <rect x="52" y="29" width="126" height="126" rx="20" fill="#ddd6fe" transform="rotate(12 115 92)"/>
+    <rect x="36" y="42" width="126" height="126" rx="20" fill="white" stroke="#c4b5fd" stroke-width="2"/>
+    <rect x="48" y="54" width="102" height="102" rx="12" fill="url(#image)"/>
+    <circle cx="119" cy="81" r="11" fill="#fff" opacity=".9"/>
+    <path d="M48 139 79 104 104 129 123 112 150 141V144Q150 156 138 156H60Q48 156 48 144Z" fill="#6473c9" opacity=".8"/>
+    <path d="M178 144A88 88 0 1 1 164 24" fill="none" stroke="url(#accent)" stroke-width="11" stroke-linecap="round"/>
+    <path d="m143 22 25 5-3-26" fill="none" stroke="#6550cc" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>
