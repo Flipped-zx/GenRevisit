@@ -2,6 +2,11 @@
 
 Training code for SFT and RL with NACA.
 
+## Model
+
+- [GenRevisit-SFT](https://huggingface.co/GenRevisit/GenRevisit-SFT)
+- [GenRevisit-RL](https://huggingface.co/GenRevisit/GenRevisit-RL)
+
 ## Structure
 
 ```text
