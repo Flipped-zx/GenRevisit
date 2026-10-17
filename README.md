@@ -7,11 +7,11 @@
 <p align="center">
   <a href="https://arxiv.org/abs/2610.16224"><img src="https://img.shields.io/badge/Paper-arXiv%3A2610.16224-B31B1B?style=flat-square" alt="Paper on arXiv" /></a>
   &nbsp;
-  <img src="https://img.shields.io/badge/Project_Page-Coming_Soon-64748B?style=flat-square" alt="Project page coming soon" />
+  <img src="assets/project-page-badge.svg" alt="Project page coming soon" />
   &nbsp;
-  <a href="https://huggingface.co/GenRevisit/GenRevisit-RL"><img src="https://img.shields.io/badge/Hugging_Face-GenRevisit-FFD21E?style=flat-square&amp;logo=huggingface&amp;logoColor=black" alt="GenRevisit-RL on Hugging Face" /></a>
+  <a href="https://huggingface.co/GenRevisit/GenRevisit-RL"><img src="assets/huggingface-badge.svg" alt="GenRevisit-RL on Hugging Face" /></a>
   &nbsp;
-  <a href="https://modelscope.cn/models/GenRevisit/GenRevisit-RL"><img src="https://img.shields.io/badge/ModelScope-GenRevisit-624AFF?style=flat-square" alt="GenRevisit-RL on ModelScope" /></a>
+  <a href="https://modelscope.cn/models/GenRevisit/GenRevisit-RL"><img src="assets/modelscope-badge.svg" alt="GenRevisit-RL on ModelScope" /></a>
 </p>
 
 <p align="center">
@@ -30,6 +30,10 @@ The planner is trained in two stages:
 
 1. **Supervised fine-tuning (SFT)** on multi-round teacher trajectories, supervising only actions that improve the image (including recovery from degraded states), while failed actions remain in the context as recovery cues.
 2. **Reinforcement learning (RL)** with GRPO, augmented by **Normalized Action Credit Assignment (NACA)**, which redistributes positive trajectory-level advantage among generation and editing actions according to each action's normalized contribution to closing the remaining utility gap — instead of assigning the same advantage to every action in the trajectory.
+
+## Framework
+
+[![GenRevisit framework: joint continuation-state and action selection](assets/framework.png)](assets/framework.pdf)
 
 ## Method
 
