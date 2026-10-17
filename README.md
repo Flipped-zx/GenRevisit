@@ -45,8 +45,6 @@ The framework consists of three components:
 
 ## Performance
 
-![Performance of GenRevisit on GenEval2, GenEval, and GenEval++](assets/performance.png)
-
 GenRevisit achieves state-of-the-art compositional generation performance among the evaluated baselines:
 
 - **GenEval2:** 84.3 GM with Qwen-Image-2512 and 74.4 GM with Z-Image-Turbo (without additional training), surpassing the strongest agentic baselines using the same generators by **12.7** and **10.9** points respectively.
