@@ -15,16 +15,6 @@
 </p>
 
 <p align="center">
-  <img src="assets/trajectories-label.svg" alt="Trajectories" />
-  &nbsp;
-  <a href="docs/trajectories/geneval2.md"><img src="assets/geneval2-trajectories-badge.svg" alt="GenEval2 trajectories" /></a>
-  &nbsp;
-  <a href="docs/trajectories/geneval.md"><img src="assets/geneval-trajectories-badge.svg" alt="GenEval trajectories" /></a>
-  &nbsp;
-  <a href="docs/trajectories/geneval-plus-plus.md"><img src="assets/geneval-plus-plus-trajectories-badge.svg" alt="GenEval++ trajectories" /></a>
-</p>
-
-<p align="center">
   <a href="https://github.com/Flipped-zx/GenRevisit"><img src="assets/star-us.svg" alt="⭐ Please give us a star if you find this helpful!" width="360" /></a>
 </p>
 
