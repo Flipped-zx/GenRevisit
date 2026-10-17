@@ -15,6 +15,16 @@
 </p>
 
 <p align="center">
+  <img src="assets/trajectories-label.svg" alt="Trajectories" />
+  &nbsp;
+  <a href="docs/trajectories/geneval2.md"><img src="assets/geneval2-trajectories-badge.svg" alt="GenEval2 trajectories" /></a>
+  &nbsp;
+  <a href="docs/trajectories/geneval.md"><img src="assets/geneval-trajectories-badge.svg" alt="GenEval trajectories" /></a>
+  &nbsp;
+  <a href="docs/trajectories/geneval-plus-plus.md"><img src="assets/geneval-plus-plus-trajectories-badge.svg" alt="GenEval++ trajectories" /></a>
+</p>
+
+<p align="center">
   <a href="https://github.com/Flipped-zx/GenRevisit"><img src="assets/star-us.svg" alt="⭐ Please give us a star if you find this helpful!" width="360" /></a>
 </p>
 
@@ -53,30 +63,29 @@ GenRevisit achieves state-of-the-art compositional generation performance among 
 
 ## Model Setup
 
-Download the planner and image tools to local directories:
+### Planner
+
+Use **GenRevisit-RL** for inference, or **Qwen3-VL-8B-Instruct** for training from the base model.
 
 ```bash
-python -m pip install -U huggingface_hub
-
-# Planner: final GenRevisit policy
 hf download GenRevisit/GenRevisit-RL --local-dir models/GenRevisit-RL
-
-# Image generator
-hf download Qwen/Qwen-Image-2512 --local-dir models/Qwen-Image-2512
-
-# Image editor
-hf download Qwen/Qwen-Image-Edit-2511 --local-dir models/Qwen-Image-Edit-2511
-
-# Alternative generator: cross-generator evaluation
-hf download Tongyi-MAI/Z-Image-Turbo --local-dir models/Z-Image-Turbo
-
-# Base planner: needed only for training from the original backbone
 hf download Qwen/Qwen3-VL-8B-Instruct --local-dir models/Qwen3-VL-8B-Instruct
+```
+
+### Image Tools
+
+**Generation:** Qwen-Image-2512 or Z-Image-Turbo. **Editing:** Qwen-Image-Edit-2511.
+
+```bash
+hf download Qwen/Qwen-Image-2512 --local-dir models/Qwen-Image-2512
+hf download Qwen/Qwen-Image-Edit-2511 --local-dir models/Qwen-Image-Edit-2511
+hf download Tongyi-MAI/Z-Image-Turbo --local-dir models/Z-Image-Turbo
 ```
 
 ## Installation
 
 ```bash
+python -m pip install -U huggingface_hub
 python -m pip install -e .
 ```
 
