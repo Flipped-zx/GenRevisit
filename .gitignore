@@ -25,3 +25,4 @@ artifacts/
 *.jpg
 *.jpeg
 *.webp
+!assets/performance.png

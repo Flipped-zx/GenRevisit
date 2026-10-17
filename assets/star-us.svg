@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="30" viewBox="0 0 360 30" role="img" aria-labelledby="title">
+  <title id="title">Please give us a star if you find this helpful!</title>
+  <style>
+    .star { transform-box: fill-box; transform-origin: center; animation: twinkle 3s ease-in-out infinite; }
+    .caption { fill: #57606a; }
+    @keyframes twinkle { 0%, 70%, 100% { transform: rotate(0deg) scale(1); } 30% { transform: rotate(-12deg) scale(1.15); } 45% { transform: rotate(8deg) scale(1.08); } }
+    @media (prefers-reduced-motion: reduce) { .star { animation: none; } }
+    @media (prefers-color-scheme: dark) { .caption { fill: #b1bac4; } }
+  </style>
+  <path class="star" fill="#FFC400" d="m19 4 3.3 6.7 7.4 1.1-5.4 5.2 1.3 7.4L19 20.9l-6.6 3.5 1.3-7.4-5.4-5.2 7.4-1.1Z"/>
+  <text class="caption" x="39" y="20" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-style="italic">Please give us a star if you find this helpful!</text>
+</svg>

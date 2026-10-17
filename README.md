@@ -1,35 +1,26 @@
-<p align="center">
-  <img src="assets/logo.svg" alt="GenRevisit" width="230" />
-</p>
-
-<h1 align="center">GenRevisit</h1>
+<h1 align="center"><img src="assets/wordmark.svg" alt="GenRevisit" width="360" /></h1>
 
 <p align="center">
-  <b>Look Back to Move Forward: Learning to Revisit for Agentic Compositional Image Generation</b>
+  <b><em>Look Back to Move Forward: Learning to Revisit for Agentic Compositional Image Generation</em></b>
 </p>
 
 <p align="center">
-  <a href="https://arxiv.org/abs/2610.16224">📄 Paper</a> &nbsp;·&nbsp;
-  <a href="https://huggingface.co/GenRevisit/GenRevisit-SFT">🤗 SFT Model</a> &nbsp;·&nbsp;
-  <a href="https://huggingface.co/GenRevisit/GenRevisit-RL">🤗 RL Model</a>
-  <br />
-  <a href="https://modelscope.cn/models/GenRevisit/GenRevisit-SFT">ModelScope SFT</a> &nbsp;·&nbsp;
-  <a href="https://modelscope.cn/models/GenRevisit/GenRevisit-RL">ModelScope RL</a>
+  <a href="https://arxiv.org/abs/2610.16224"><img src="https://img.shields.io/badge/Paper-arXiv%3A2610.16224-B31B1B?style=flat-square" alt="Paper on arXiv" /></a>
+  &nbsp;
+  <img src="https://img.shields.io/badge/Project_Page-Coming_Soon-64748B?style=flat-square" alt="Project page coming soon" />
+  &nbsp;
+  <a href="https://huggingface.co/GenRevisit/GenRevisit-RL"><img src="https://img.shields.io/badge/Hugging_Face-GenRevisit-FFD21E?style=flat-square&amp;logo=huggingface&amp;logoColor=black" alt="GenRevisit-RL on Hugging Face" /></a>
+  &nbsp;
+  <a href="https://modelscope.cn/models/GenRevisit/GenRevisit-RL"><img src="https://img.shields.io/badge/ModelScope-GenRevisit-624AFF?style=flat-square" alt="GenRevisit-RL on ModelScope" /></a>
 </p>
 
 <p align="center">
-  <a href="#overview">Overview</a> &nbsp;·&nbsp;
-  <a href="#method">Method</a> &nbsp;·&nbsp;
-  <a href="#results">Results</a> &nbsp;·&nbsp;
-  <a href="#models">Models</a> &nbsp;·&nbsp;
-  <a href="#installation">Installation</a> &nbsp;·&nbsp;
-  <a href="#usage">Usage</a> &nbsp;·&nbsp;
-  <a href="#citation">Citation</a>
+  <a href="https://github.com/Flipped-zx/GenRevisit"><img src="assets/star-us.svg" alt="⭐ Please give us a star if you find this helpful!" width="360" /></a>
 </p>
 
 ---
 
-## Overview
+## 💡 Overview
 
 **GenRevisit** is an agentic framework for compositional text-to-image generation. Existing agentic approaches refine images iteratively but typically fix the *continuation state* — the image from which refinement proceeds — to the latest candidate. Since iterative editing is not necessarily monotonic, the agent may continue refining from an image that has already degraded, wasting its budget restoring constraints that were previously satisfied.
 
@@ -48,7 +39,9 @@ The framework consists of three components:
 - **Supervised fine-tuning for cold start.** Teacher trajectories are collected with GPT-5.5; only improving actions receive imitation loss (masked SFT), while degraded actions and their feedback remain in context to inform later decisions.
 - **RL with Normalized Action Credit Assignment (NACA).** The terminal reward measures how well the final submitted image satisfies the task constraints. For positive-advantage trajectories, NACA redistributes credit among image actions in proportion to the fraction of the remaining utility gap each action closes, so regressive actions in otherwise successful trajectories are not spuriously reinforced. Non-positive advantages are left unchanged.
 
-## Results
+## Performance
+
+![Performance of GenRevisit on GenEval2, GenEval, and GenEval++](assets/performance.png)
 
 GenRevisit achieves state-of-the-art compositional generation performance among the evaluated baselines:
 
@@ -56,14 +49,28 @@ GenRevisit achieves state-of-the-art compositional generation performance among 
 - **Cross-benchmark generalization:** best overall scores on **GenEval** (0.9844) and **GenEval++** (0.8929).
 - **Ablations:** SFT + NACA (84.3 GM) outperforms SFT-only (81.5) and SFT + standard GRPO (80.3) on GenEval2; joint continuation-state selection outperforms latest-only and best-only teacher continuations by 5.0 and 2.8 GM points under matched budgets.
 
-## Models
+## Model Setup
 
-| Model | Hugging Face | ModelScope |
-| :--- | :---: | :---: |
-| **GenRevisit-SFT** | [🤗 Weights](https://huggingface.co/GenRevisit/GenRevisit-SFT) | [Weights](https://modelscope.cn/models/GenRevisit/GenRevisit-SFT) |
-| **GenRevisit-RL** | [🤗 Weights](https://huggingface.co/GenRevisit/GenRevisit-RL) | [Weights](https://modelscope.cn/models/GenRevisit/GenRevisit-RL) |
+Download the planner and image tools to local directories:
 
-The planner is built on Qwen3-VL-8B-Instruct, with Qwen-Image-2512 and Qwen-Image-Edit-2511 as frozen generation and editing tools.
+```bash
+python -m pip install -U huggingface_hub
+
+# Planner: final GenRevisit policy
+hf download GenRevisit/GenRevisit-RL --local-dir models/GenRevisit-RL
+
+# Image generator
+hf download Qwen/Qwen-Image-2512 --local-dir models/Qwen-Image-2512
+
+# Image editor
+hf download Qwen/Qwen-Image-Edit-2511 --local-dir models/Qwen-Image-Edit-2511
+
+# Alternative generator: cross-generator evaluation
+hf download Tongyi-MAI/Z-Image-Turbo --local-dir models/Z-Image-Turbo
+
+# Base planner: needed only for training from the original backbone
+hf download Qwen/Qwen3-VL-8B-Instruct --local-dir models/Qwen3-VL-8B-Instruct
+```
 
 ## Installation
 
